@@ -1,13 +1,8 @@
 [phases.setup]
-nixPkgs = ['nginx', 'php82', 'php82Extensions.opcache']
-
-[phases.build]
-cmds = [
-    "mkdir -p /tmp/nginx /tmp/nginx-proxy /tmp/nginx-fastcgi"
-]
+nixPkgs = ['php82', 'php82Extensions.opcache', 'curl']
 
 [variables]
 PORT = "8080"
 
 [start]
-cmd = 'php-fpm -F -y /app/php-fpm.conf & sleep 3 && nginx -c /app/nginx.conf -g "daemon off;"'
+cmd = 'PHP_CLI_SERVER_WORKERS=4 php -d opcache.enable_cli=1 -d memory_limit=256M -S 0.0.0.0:8080 index.php'
