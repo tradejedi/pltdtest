@@ -1,8 +1,5 @@
 [phases.setup]
-nixPkgs = ['php82', 'php82Extensions.opcache', 'curl']
-
-[variables]
-PORT = "8080"
+nixPkgs = ['php82']
 
 [start]
-cmd = 'PHP_CLI_SERVER_WORKERS=4 php -d opcache.enable_cli=1 -d memory_limit=256M -S 0.0.0.0:8080 index.php'
+cmd = 'php -S 0.0.0.0:$PORT index.php'
