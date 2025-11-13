@@ -1,5 +1,17 @@
 [phases.setup]
 nixPkgs = ['nginx', 'php82', 'php82Extensions.opcache']
 
+[phases.build]
+cmds = [
+    "mkdir -p /tmp/nginx /tmp/php /var/log/nginx /var/cache/nginx"
+]
+
+[variables]
+PORT = "8080"
+
 [start]
-cmd = 'php-fpm -F -y php-fpm.conf & sleep 2 && nginx -c nginx.conf -g "daemon off;"'
+cmd = 'php-fpm -F -y /app/php-fpm.conf & sleep 2 && nginx -c /app/nginx.conf -g "daemon off;"'
+
+[service]
+autoStop = false
+minReplicas = 1
