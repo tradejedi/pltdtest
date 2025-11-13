@@ -1,5 +1,28 @@
 [phases.setup]
-nixPkgs = ['php82']
+nixPkgs = ['nginx', 'php82', 'python310Packages.supervisor']
+
+[phases.build]
+cmds = [
+    '''cat > supervisord.conf << 'EOF'
+[supervisord]
+nodaemon=true
+logfile=/dev/null
+
+[program:php-fpm]
+command=php-fpm -F
+autostart=true
+autorestart=true
+stdout_logfile=/dev/stdout
+stderr_logfile=/dev/stderr
+
+[program:nginx]
+command=nginx -g 'daemon off;'
+autostart=true
+autorestart=true
+stdout_logfile=/dev/stdout
+stderr_logfile=/dev/stderr
+EOF'''
+]
 
 [start]
-cmd = 'php -S 0.0.0.0:$PORT index.php'
+cmd = 'supervisord -c supervisord.conf'
