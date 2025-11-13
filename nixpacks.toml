@@ -10,10 +10,4 @@ cmds = [
 PORT = "8080"
 
 [start]
-cmd = '''
-echo "Starting PHP-FPM..."
-php-fpm -F -y /app/php-fpm.conf &
-sleep 3
-echo "Starting Nginx..."
-nginx -c /app/nginx.conf -g "daemon off;"
-'''
+cmd = 'php-fpm -F -y /app/php-fpm.conf & sleep 3 && nginx -c /app/nginx.conf -g "daemon off;"'
